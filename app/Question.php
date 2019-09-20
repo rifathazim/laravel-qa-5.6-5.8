@@ -12,10 +12,17 @@ class Question extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function make_slug($string) {
+        return preg_replace('/\s+/u', '-', trim($string));
+    }
+
     public function setTitleAttribute($value){
         $this->attributes['title']=$value;
-        $this->attributes['slug']=str_slug($value);
+        $this->attributes['slug']= $this->make_slug($value);
     }
+
+
+
 
     public function getUrlAttribute(){
         return route("questions.show",$this->slug);
